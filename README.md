@@ -12,7 +12,10 @@ This repo contains
 ## Getting Started
 To create  a Transformer
 ```
-from transformer_main import *
-tfmr = create_transformer(5,5,6)     #src_vocab,trgt_vocab,num_blocks
+from transformer_main import *   
+model = create_transformer(5, 5)
+model_opt = get_trans_optim(model)
+criterion = LabelSmoothing(size=5, padding_idx=0, smoothing=0.0)
+fit_transformer(generate_data(5, 30, 20), model, loss_compute(model.generator,criterion,model_opt))
 ```
 
