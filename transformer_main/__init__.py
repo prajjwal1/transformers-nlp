@@ -12,3 +12,4 @@ from .decoder import *
 from .attention import *
 from .optimizer import *
 from .reg import *
+from .decode import *
