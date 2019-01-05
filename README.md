@@ -12,7 +12,7 @@ This repo contains
 ## Getting Started
 To create  a Transformer
 ```
-from transformer_main import *   
+from attention_main import *   
 model = create_transformer(5, 5)
 model_opt = get_trans_optim(model)
 criterion = LabelSmoothing(size=5, padding_idx=0, smoothing=0.0)
