@@ -23,8 +23,7 @@ def clones(module, N):
 
 class SublayerConnection(nn.Module):
     """
-    A residual connection followed by a layer norm.
-    Note for code simplicity the norm is first as opposed to last.
+    Residual Connection -> Layer Norm.
     """
     def __init__(self, size, dropout):
         super(SublayerConnection, self).__init__()
@@ -36,13 +35,12 @@ class SublayerConnection(nn.Module):
         return x + self.dropout(sublayer(self.norm(x)))
 
 def subsequent_mask(size):
-    "Mask out subsequent positions."
+    "Masks subsequent positions."
     attn_shape = (1, size, size)
     subsequent_mask = np.triu(np.ones(attn_shape), k=1).astype('uint8')
     return torch.from_numpy(subsequent_mask) == 0
 
 class PositionwiseFeedForward(nn.Module):
-    "Implements FFN equation."
     def __init__(self, d_model, d_ff, dropout=0.1):
         super(PositionwiseFeedForward, self).__init__()
         self.w_1 = nn.Linear(d_model, d_ff)
@@ -138,7 +136,7 @@ def loss(x):
                  Variable(torch.LongTensor([1]))).item()
 
 def generate_data(V, batch, num_batches):
-    "Generate random data for a src-tgt copy task."
+    "Generate random data for a source-target copy task."
     for i in range(num_batches):
         data = torch.from_numpy(np.random.randint(1, V, size=(batch, 10)))
         data[:, 0] = 1

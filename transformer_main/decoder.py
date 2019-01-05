@@ -21,7 +21,11 @@ class Decoder(nn.Module):
         return self.norm(x)
 
 class DecoderLayer(nn.Module):
-    "Decoder is made of self-attn, src-attn, and feed forward (defined below)"
+    """
+    Self Attention + Source Attention + Feed Forward 
+    Input:
+    Output:
+    """
     def __init__(self, size, self_attn, src_attn, feed_forward, dropout):
         super(DecoderLayer, self).__init__()
         self.size = size
@@ -31,7 +35,6 @@ class DecoderLayer(nn.Module):
         self.sublayer = clones(SublayerConnection(size, dropout), 3)
  
     def forward(self, x, memory, src_mask, tgt_mask):
-        "Follow Figure 1 (right) for connections."
         m = memory
         x = self.sublayer[0](x, lambda x: self.self_attn(x, x, x, tgt_mask))
         x = self.sublayer[1](x, lambda x: self.src_attn(x, m, m, src_mask))

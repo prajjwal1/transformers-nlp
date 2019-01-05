@@ -47,16 +47,16 @@ class MultiHeadedAttention(nn.Module):
             mask = mask.unsqueeze(1)
         nbatches = query.size(0)
         
-        # 1) Performs all linear projections in batch from d_model => h x d_k 
+        # Performs all linear projections in batch from d_model => h x d_k 
         query, key, value = \
             [l(x).view(nbatches, -1, self.h, self.d_k).transpose(1, 2)
              for l, x in zip(self.linears, (query, key, value))]
 
-        # 2) Applies attention on all the projected vectors in batch. 
+        # Applies attention on all the projected vectors in batch. 
         x, self.attn = attention(query, key, value, mask=mask, 
                                  dpt=self.dpt)
         
-        # 3) "Concat" using a view and apply a final linear. 
+        # Perform concatenation and feed to final linear. 
         x = x.transpose(1, 2).contiguous() \
              .view(nbatches, -1, self.h * self.d_k)
         return self.linear[-1](x)
