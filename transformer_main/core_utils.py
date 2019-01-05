@@ -53,10 +53,18 @@ class PositionwiseFeedForward(nn.Module):
         return self.w_2(self.dropout(F.relu(self.w_1(x))))
 
 class PositionalEncoding(nn.Module):
-    "Implement the PE function."
-    def __init__(self, d_model, dropout, max_len=5000):
+    """Implement the PE function.
+    Input:
+        d_model: Dimension of model (Have same dimension `d_model` as embeddings so that they can be summed)
+        dpt: Dropout Rate
+        Forward:
+        x: A Tensor of shape (n,max_range,interval)   
+    Output:
+        x: Positional Encodings
+    """
+    def __init__(self, d_model, dpt, max_len=5000):
         super(PositionalEncoding, self).__init__()
-        self.dropout = nn.Dropout(p=dropout)
+        self.dpt = nn.Dropout(p=dpt)
         
         # Compute the positional encodings once in log space.
         pe = torch.zeros(max_len, d_model)
@@ -71,7 +79,7 @@ class PositionalEncoding(nn.Module):
     def forward(self, x):
         x = x + Variable(self.pe[:, :x.size(1)], 
                          requires_grad=False)
-        return self.dropout(x)
+        return self.dpt(x)
 
 class Embeddings(nn.Module):
     def __init__(self, d_model, vocab):

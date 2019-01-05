@@ -18,4 +18,4 @@ model_opt = get_trans_optim(model)
 criterion = LabelSmoothing(size=5, padding_idx=0, smoothing=0.0)
 fit_transformer(generate_data(5, 30, 20), model, loss_compute(model.generator,criterion,model_opt))
 ```
-
+More functionalities are work in progress. 
